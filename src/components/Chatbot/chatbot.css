@@ -1,0 +1,117 @@
+.chatbot{
+    display: flex;
+    justify-content: center;
+    place-items: center;
+    height: 100vh;
+    position: relative;
+}
+
+.chatbot .content{
+    background: var(--primaryGradient);
+    color: #f1f5f9;
+    height: 80vh;
+    width: 360px;
+    border-radius: 5px;
+    padding: 0;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-bottom: 4px;
+    box-sizing: border-box;
+    overflow-y: scroll;
+    position: relative;
+    scroll-behavior: smooth;
+}
+.chatbot .header{
+    position: sticky;
+    top: 0;
+    background: var(--secondaryGradient);
+    width: 350px;
+    margin-left: -3px;
+    border-radius: 3px;
+    padding: 10px 0;
+    z-index:1
+}
+
+.chatbot .header p{
+    text-align: center;
+    margin-bottom: 3px;
+    margin-top: 3px;
+    font-weight: bold;
+}
+
+.chatbot .messages{
+    min-height: 86%;
+}
+::-webkit-scrollbar{
+    width: 0;
+}
+
+.chatbot .scroll-bottom{
+    position: absolute;
+    top: 100px;
+    z-index: 2;
+    margin-left: 315px;
+}
+.chatbot .scroll-bottom svg{
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+}
+.chatbot .msg{
+    display: flex;
+    margin: 5px;
+    align-items: center;
+}
+
+.chatbot .savedb svg{
+    font-size: 25px;
+    margin-left: 5px;
+    display: none;
+    cursor: pointer;
+}
+
+.chatbot .msg:hover .savedb svg{
+    display: block;
+}
+.chatbot .msg img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.chatbot .msg .text{
+    background:linear-gradient(110deg, #0069a45c, #e22ca457);
+    font-family: monospace;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 14px;
+}
+
+.chatbot .inputField{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    position: sticky;
+    bottom: 0;
+}
+.chatbot .inputField input{
+    outline: none;
+    border: none;
+    padding: 7px 10px;
+    border-radius: 0;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    width: 100%
+}
+.chatbot .inputField button{
+    outline: none;
+    border: none;
+    padding: 8px 10px;
+    background: var(--secondaryGradient);
+    color: white;
+    border-radius: 0!important;
+    border-top-right-radius: 5px!important;
+    border-bottom-right-radius: 5px!important;
+    cursor: pointer
+}

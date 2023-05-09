@@ -1,0 +1,62 @@
+:root{
+  --bgColor: #F5F5F5;
+  --bgColor2: white;
+  --textColor: #2D3654;
+  --textColor2: #f0f5f0;
+  --primary-color: #7b0e9c86;
+  --secondaryColor: #959BA5;
+  --primaryGradient: linear-gradient(110deg, #04756f, #013532f5);
+  --secondaryGradient: linear-gradient(to left, #03524e, #013532);
+  --primary-font: 'Poppins', sans-serif;
+}
+ * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  border: none;
+  font-family: var(--primary-font);
+ 
+ }
+p, h1,h2,h3,h4,h5,h6{
+  margin-bottom: 0!important;
+}
+ .app{
+  box-sizing: border-box;
+}
+
+input[type=text]{
+  border-radius: 30px;
+  padding: 5px 10px;
+}
+input[type=text]::placeholder{
+ color: var(--secondaryColor);
+ font-size: 14px;
+}
+
+input[type=text]:focus{
+  outline: none;
+  border: 1px solid var(--primary-color);
+}
+button{
+  background: var(--primaryGradient);
+  padding: 6px 20px;
+  color: var(--textColor2);
+  border-radius: 30px !important;
+}
+
+
+
+
+
+
+
+.Toastify__toast{
+  min-height: 0;
+}
+.Toastify__progress-bar--success{
+  background-color: var(--primary-color);
+}
+.Toastify__toast svg{
+  fill: rgb(23, 210, 235)
+}

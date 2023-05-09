@@ -1,0 +1,80 @@
+.link{
+    text-decoration: none;
+    color: black
+}
+.mynav{
+    background: var(--primaryGradient);
+    position: relative;
+    min-height: 100vh;
+}
+.mynav .tabs{
+    width: 220px
+}
+.mynav .text{
+    color: white;
+}
+
+.mynav .logo{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+.mynav .logo img{
+    width: 70px;
+    height: 70px;
+}
+
+.mynav svg{
+    color: var(--bgColor);
+    font-size: 1.4rem;
+}
+
+.mynav .tabs .tab{
+    display: flex;
+    padding: 10px 10px;
+    gap: 10px;
+    margin-left: 18px;
+}
+
+.mynav .underline{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 70%;
+    height: 1px;
+    background-color: white;
+    margin-left: auto;
+    margin-right: auto;
+}
+.mynav .upgrade{
+    color: white;
+    padding: 12px 17px;
+    margin: 20px;
+    background: rgb(255 255 255 / 10%);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    bottom: 20px;
+}
+.mynav .upgrade small{
+    color: var(--secondaryColor);
+}
+.mynav .upgrade button{
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.upgrade .inner{
+    position: relative;
+}
+
+.upgrade img{
+    position: absolute;
+    bottom: 10px;
+    right: -30px;
+}
+@media only screen and (max-width: 500px){
+    .mynav{
+        display: none!important;
+    }
+}
