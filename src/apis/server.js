@@ -35,23 +35,12 @@ export const validate = (token) => {
     })
 }
 
-// save project
-export const saveProject = (data) => {
-    return fetch(server+'/project/add', {
-        method: 'POST',
-        headers : {
-            'Content-Type' : 'application/json',
-            'token' : `${getCookie('user')}`
-        },
-        body: JSON.stringify(data)
-    })
+// get podcasts
+export const getPodcasts = () => {
+    return fetch(server+'/podcast/all')
 }
-// get project
-export const getProjects = () => {
-    return fetch(server+'/project/all', {
-        method: 'GET',
-        headers: {
-            'token' : `${getCookie('user')}`
-        }
-    })
+
+// get episodes of podcasts
+export const getEpisodes = (id) => {
+    return fetch(server+'/podcast/episodes/'+id)
 }

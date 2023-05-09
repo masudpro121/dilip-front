@@ -1,6 +1,5 @@
 import React from "react";
 import Navbar from "../components/Navbar/Navbar";
-import Footer from "../components/Footer/Footer";
 
 export default function withNavbar(Component) {
   function MyNav() {
@@ -12,7 +11,6 @@ export default function withNavbar(Component) {
             <Component />
           </div>
         </div>
-        {/* <Footer /> */}
       </>
     );
   }
