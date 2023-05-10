@@ -50,7 +50,7 @@ export const getEpisodeDetails = (feedId, episodeId) => {
     return fetch(`${server}/podcast/episode/${feedId}/${episodeId}`)
 }
 
-// get transcribtion
+// get transcription
 export const getTranscription = (transUrl) => {
     return fetch(server+'/podcast/transcribe/'+transUrl)
 }
