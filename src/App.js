@@ -6,7 +6,8 @@ import { Signin, Signup } from './components/Auth/Auth';
 import Home from './pages/Home/Home';
 import { validate } from './apis/server';
 import { getCookie } from './utils/cookie';
-import ProductDetails from './pages/ProductDetails/ProductDetails';
+import EpisodeDetails from './components/EpisodeDetails/EpisodeDetails';
+import PodcastDetails from './pages/PodcastDetails/PodcastDetails';
 
 // Router 
 
@@ -23,7 +24,8 @@ function App() {
 
 
   const router = createHashRouter([
-    { path: "/product/:id", element: <ProductDetails/> },
+    { path: "/podcast/episode/:feedId/:episodeId", element: <EpisodeDetails/> },
+    { path: "/podcast/:id", element: <PodcastDetails/> },
     { path: "/signup", element: <Signup/> },
     { path: "/signin", element: <Signin/> },
     { path: "/", element: <Home/>},

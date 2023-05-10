@@ -5,7 +5,7 @@ import { getEpisodes } from '../../apis/server'
 import { useState } from 'react'
 import Episode from '../../components/Episode/Episode'
 
-export default function ProductDetails() {
+export default function PodcastDetails() {
     const [episodes, setEpisodes] = useState([])
     const {id} = useParams()
     useEffect(()=>{

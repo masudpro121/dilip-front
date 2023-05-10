@@ -44,3 +44,13 @@ export const getPodcasts = () => {
 export const getEpisodes = (id) => {
     return fetch(server+'/podcast/episodes/'+id)
 }
+
+// get 1 episode details
+export const getEpisodeDetails = (feedId, episodeId) => {
+    return fetch(`${server}/podcast/episode/${feedId}/${episodeId}`)
+}
+
+// get transcribtion
+export const getTranscription = (transUrl) => {
+    return fetch(server+'/podcast/transcribe/'+transUrl)
+}

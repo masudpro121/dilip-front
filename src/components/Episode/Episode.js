@@ -1,32 +1,19 @@
 import React from 'react'
 import { useState } from 'react';
 import { useRef } from 'react';
+import { Link } from 'react-router-dom';
+import AudioPlayer from '../AudioPlayer/AudioPlayer';
 
 export default function Episode({data}) {
-    console.log(data, 'data');
-    const audioRef = useRef(null);
-    const handlePlayPause = () => {
-        pauseAllAudio(); 
-        audioRef.current.play();
-      };
-    
-      const pauseAllAudio = () => {
-        const audios = document.getElementsByTagName('audio');
-        for (let i = 0; i < audios.length; i++) {
-          if (audios[i] !== audioRef.current) {
-            audios[i].pause();
-          }
-        }
-      };
+    const audioRef = useRef(null)
   return (
     <div>
         <img style={{width:'200px'}} src={data.image} alt="" />
         <h3>{data.title}</h3>
-        <div></div>
+        <div>{data.description.replace(/(<p>Visit).*(<\/p>)/gi, '').replaceAll(/<p>|<\/p>/gi, '')}</div>
         <div>
-        <audio ref={audioRef} controls onPlay={handlePlayPause} >
-            <source src={data.enclosureUrl} type={data.enclosureType} />
-        </audio>
+        <AudioPlayer audioRef = {audioRef} enclosureType={data.enclosureType} enclosureUrl={data.enclosureUrl} />
+        <Link to={"/podcast/episode/"+data.feedId+"/"+data.id}>Visit here</Link>
         </div>
     </div>
   )
