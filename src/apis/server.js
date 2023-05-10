@@ -51,6 +51,18 @@ export const getEpisodeDetails = (feedId, episodeId) => {
 }
 
 // get transcription
-export const getTranscription = (transUrl) => {
-    return fetch(server+'/podcast/transcribe/'+transUrl)
+export const getTranscription = (transUrl, enclosureUrl) => {
+    return fetch(server+'/podcast/transcription', {
+        method: 'POST',
+        headers: {
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify({transUrl, enclosureUrl})
+    })
+}
+
+
+// get author
+export const getAuthor = (feedId) => {
+    return fetch(server+'/podcast/author/'+feedId)
 }

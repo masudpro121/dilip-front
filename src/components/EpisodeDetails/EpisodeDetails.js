@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getEpisodeDetails, getTranscription } from "../../apis/server";
+import { getAuthor, getEpisodeDetails, getTranscription } from "../../apis/server";
 import { useState } from "react";
 import AudioPlayer from "../AudioPlayer/AudioPlayer";
 import { useRef } from "react";
@@ -9,7 +9,9 @@ import { useRef } from "react";
 export default function EpisodeDetails() {
   const audioRef = useRef(null);
   const { feedId, episodeId } = useParams();
+  const [ author, setAuthor ] = useState({});
   const [episode, setEpisode] = useState({});
+  const [transcription, setTranscription] = useState("");
   useEffect(() => {
     getEpisodeDetails(feedId, episodeId)
       .then((res) => res.json())
@@ -18,7 +20,24 @@ export default function EpisodeDetails() {
       });
   }, []);
 
-  console.log(episode);
+  useEffect(() => {
+   if(episode.id){
+    getTranscription(episode.transcriptUrl, episode.enclosureUrl)
+    .then(res=>res.json())
+    .then(res=>{
+      setTranscription(res.data)
+    })
+   }
+  }, [episode]);
+
+  useEffect(() => {
+    getAuthor(feedId)
+      .then((res) => res.json())
+      .then((res) => {
+        setAuthor(res.data);
+      });
+  }, []);
+
   const getPrettyMinute = (seconds) => {
     let hours = Math.floor(seconds / 3600);
     let minutes = Math.floor((seconds % 3600) / 60);
@@ -33,23 +52,22 @@ export default function EpisodeDetails() {
     }
     return timeString;
   };
-  console.log(episode);
   return (
     <div>
-      {episode.podcast && (
+      {episode.id && author.id &&  (
         <div>
           <h3>{episode.title}</h3>
           <div className="d-flex align-items-center">
             <div>
               <img
                 style={{ width: "80px" }}
-                src={episode.podcast.image}
+                src={author.image}
                 alt=""
               />
             </div>
             <div>
-              <p>{episode.podcast.author}</p>
-              <p>{episode.podcast.title}</p>
+              <p>{author.author}</p>
+              <p>{author.title}</p>
             </div>
           </div>
           <p>Released: {episode.datePublishedPretty}</p>
@@ -65,7 +83,7 @@ export default function EpisodeDetails() {
             )}
           </div>
           <div>
-            {episode.transcription}
+            {transcription}
           </div>
         </div>
       )}
