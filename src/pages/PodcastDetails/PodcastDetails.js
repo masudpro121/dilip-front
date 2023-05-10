@@ -12,6 +12,7 @@ export default function PodcastDetails() {
         getEpisodes(id)
         .then(res=>res.json())
         .then(res=>{
+            console.log(res.data, 'episodes');
             setEpisodes(res.data.items)
         })
     },[])
