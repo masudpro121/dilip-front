@@ -11,7 +11,7 @@ export default function EpisodeDetails() {
   const { feedId, episodeId } = useParams();
   const [ author, setAuthor ] = useState({});
   const [episode, setEpisode] = useState({});
-  const [transcription, setTranscription] = useState("");
+  const [transcription, setTranscription] = useState({});
   const [count, setCount] = useState(1);
   useEffect(() => {
     getEpisodeDetails(feedId, episodeId)
@@ -20,6 +20,7 @@ export default function EpisodeDetails() {
         setEpisode(res.data);
       });
   }, []);
+
   useEffect(() => {
    if(episode.transcriptUrl && count==1){
     setCount(count+1)
@@ -29,6 +30,7 @@ export default function EpisodeDetails() {
       setTranscription(res.data)
     })
    }
+
    console.log(transcription, 'trans');
    if(!episode.transcriptUrl && episode.enclosureUrl && count==1){
     setCount(count+1)
@@ -48,6 +50,7 @@ export default function EpisodeDetails() {
       });
   }, []);
 
+  console.log(transcription);
   const getPrettyMinute = (seconds) => {
     let hours = Math.floor(seconds / 3600);
     let minutes = Math.floor((seconds % 3600) / 60);
@@ -94,7 +97,9 @@ export default function EpisodeDetails() {
             )}
           </div>
           <div>
-            <pre>{transcription}</pre>
+            <pre>{transcription.summarize}</pre>
+            <pre>{transcription.keyInsights}</pre>
+            <pre>{transcription.details}</pre>
           </div>
         </div>
       )}
