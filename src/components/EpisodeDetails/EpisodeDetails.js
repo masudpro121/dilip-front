@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getAuthor, getEpisodeDetails, getTranscription } from "../../apis/server";
+import { getAuthor, getEpisodeDetails, getDefaultTranscription, getAITranscription } from "../../apis/server";
 import { useState } from "react";
 import AudioPlayer from "../AudioPlayer/AudioPlayer";
 import { useRef } from "react";
@@ -12,6 +12,7 @@ export default function EpisodeDetails() {
   const [ author, setAuthor ] = useState({});
   const [episode, setEpisode] = useState({});
   const [transcription, setTranscription] = useState("");
+  const [count, setCount] = useState(1);
   useEffect(() => {
     getEpisodeDetails(feedId, episodeId)
       .then((res) => res.json())
@@ -19,10 +20,18 @@ export default function EpisodeDetails() {
         setEpisode(res.data);
       });
   }, []);
-
   useEffect(() => {
-   if(episode.id){
-    getTranscription(episode.transcriptUrl, episode.enclosureUrl)
+   if(episode.transcriptUrl && count==1){
+    setCount(count+1)
+    getDefaultTranscription(episode.transcriptUrl)
+    .then(res=>res.json())
+    .then(res=>{
+      setTranscription(res.data)
+    })
+   }
+   if(!episode.transcriptUrl && episode.enclosureUrl && count==1){
+    setCount(count+1)
+    getAITranscription(episode.enclosureUrl)
     .then(res=>res.json())
     .then(res=>{
       setTranscription(res.data)
@@ -52,6 +61,7 @@ export default function EpisodeDetails() {
     }
     return timeString;
   };
+  console.log(episode);
   return (
     <div>
       {episode.id && author.id &&  (

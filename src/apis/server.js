@@ -50,14 +50,25 @@ export const getEpisodeDetails = (feedId, episodeId) => {
     return fetch(`${server}/podcast/episode/${feedId}/${episodeId}`)
 }
 
-// get transcription
-export const getTranscription = (transUrl, enclosureUrl) => {
-    return fetch(server+'/podcast/transcription', {
+// get default transcription
+export const getDefaultTranscription = (transUrl) => {
+    return fetch(server+'/podcast/default-transcription', {
         method: 'POST',
         headers: {
             'Content-Type' : 'application/json'
         },
-        body: JSON.stringify({transUrl, enclosureUrl})
+        body: JSON.stringify({transUrl})
+    })
+}
+
+// get AI transcription
+export const getAITranscription = (enclosureUrl) => {
+    return fetch(server+'/podcast/ai-transcription', {
+        method: 'POST',
+        headers: {
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify({enclosureUrl})
     })
 }
 
