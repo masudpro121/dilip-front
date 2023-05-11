@@ -5,7 +5,7 @@ import { getAuthor, getEpisodeDetails, getDefaultTranscription, getAITranscripti
 import { useState } from "react";
 import AudioPlayer from "../AudioPlayer/AudioPlayer";
 import { useRef } from "react";
-
+import "./episodeDetails.css"
 export default function EpisodeDetails() {
   const audioRef = useRef(null);
   const { feedId, episodeId } = useParams();
@@ -29,6 +29,7 @@ export default function EpisodeDetails() {
       setTranscription(res.data)
     })
    }
+   console.log(transcription, 'trans');
    if(!episode.transcriptUrl && episode.enclosureUrl && count==1){
     setCount(count+1)
     getAITranscription(episode.enclosureUrl)
@@ -93,7 +94,7 @@ export default function EpisodeDetails() {
             )}
           </div>
           <div>
-            {transcription}
+            <pre>{transcription}</pre>
           </div>
         </div>
       )}

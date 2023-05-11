@@ -1,0 +1,6 @@
+pre {
+    white-space: pre-wrap; /* Allows the text to wrap to a new line */
+    word-wrap: break-word; /* Breaks long words to fit within the width of the container */
+    overflow-x: auto; /* Adds horizontal scrolling when needed */
+    max-width: 100%; /* Ensures the container does not exceed the width of its parent */
+  }
