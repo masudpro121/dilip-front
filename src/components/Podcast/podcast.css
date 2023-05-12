@@ -3,14 +3,14 @@
     margin: 20px 10px;
     border: 1px solid lightgray;
     border-radius: 5px;
-    padding: 13px
+    padding: 13px;
+    width: 90%;
 }
 
 .podcast .item{
     display: flex;
     align-items: flex-start;
     gap: 20px;
-    width: 90%;
 }
 
 .podcast .item .categories{

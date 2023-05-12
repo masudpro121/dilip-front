@@ -1,0 +1,35 @@
+
+.episode{
+    background-color: var(--bgColor);
+    margin: 30px 10px;
+    width: 90%;
+}
+.episode img{
+    width: 280px;
+    height: 180px;
+    object-fit: cover;
+    object-position: top;
+}
+.episode .section2{
+    display: flex;
+    gap: 20px;
+}
+.episode .section1{
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+.episode .section1 img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.episode .section1 .person{
+    border-right: 1px solid white;
+    display: flex;
+    align-items: center;
+    padding-right: 20px;
+    margin-right: 20px;
+    gap: 10px;
+}

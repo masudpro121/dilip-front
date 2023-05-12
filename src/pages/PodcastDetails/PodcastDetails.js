@@ -4,8 +4,9 @@ import { useParams } from 'react-router-dom'
 import { getEpisodes } from '../../apis/server'
 import { useState } from 'react'
 import Episode from '../../components/Episode/Episode'
+import withNavbar from '../../hocs/withNavbar'
 
-export default function PodcastDetails() {
+ function PodcastDetails() {
     const [episodes, setEpisodes] = useState([])
     const {id} = useParams()
     useEffect(()=>{
@@ -31,3 +32,5 @@ export default function PodcastDetails() {
     </div>
   )
 }
+
+export default withNavbar(PodcastDetails)

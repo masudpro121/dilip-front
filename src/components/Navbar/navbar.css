@@ -3,7 +3,7 @@
     color: black
 }
 .mynav{
-    background: var(--primaryGradient);
+    background: black;
     position: relative;
     min-height: 100vh;
 }

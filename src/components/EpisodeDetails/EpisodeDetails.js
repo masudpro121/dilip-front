@@ -6,6 +6,7 @@ import { useState } from "react";
 import AudioPlayer from "../AudioPlayer/AudioPlayer";
 import { useRef } from "react";
 import "./episodeDetails.css"
+import getPrettyTime from "../../utils/getPrettyTime";
 export default function EpisodeDetails() {
   const audioRef = useRef(null);
   const { feedId, episodeId } = useParams();
@@ -42,50 +43,30 @@ export default function EpisodeDetails() {
    }
   }, [episode]);
 
-  useEffect(() => {
-    getAuthor(feedId)
-      .then((res) => res.json())
-      .then((res) => {
-        setAuthor(res.data);
-      });
-  }, []);
+ 
 
   console.log(transcription);
-  const getPrettyMinute = (seconds) => {
-    let hours = Math.floor(seconds / 3600);
-    let minutes = Math.floor((seconds % 3600) / 60);
-    let remainingSeconds = seconds % 60;
-    let timeString = "";
-    if (seconds > 3600) {
-      timeString = `${hours}hr ${minutes}min ${remainingSeconds}s`;
-    } else if (seconds > 60) {
-      timeString = `${minutes}min ${remainingSeconds}s`;
-    } else {
-      timeString = `${remainingSeconds}s`;
-    }
-    return timeString;
-  };
+  
   console.log(episode);
   return (
     <div>
-      {episode.id && author.id &&  (
+      {episode.id  &&  (
         <div>
           <h3>{episode.title}</h3>
           <div className="d-flex align-items-center">
             <div>
               <img
                 style={{ width: "80px" }}
-                src={author.image}
+                src={episode.persons[0].img}
                 alt=""
               />
             </div>
             <div>
-              <p>{author.author}</p>
-              <p>{author.title}</p>
+              <p>{episode.persons[0].name}</p>
             </div>
           </div>
           <p>Released: {episode.datePublishedPretty}</p>
-          <p>Duration: {getPrettyMinute(episode.duration)}</p>
+          <p>Duration: {getPrettyTime(episode.duration)}</p>
           {/* <div>{episode.description.replace(/(<p>Visit).*(<\/p>)/gi, '').replaceAll(/<p>|<\/p>/gi, '')}</div> */}
           <div>
             {episode.enclosureType && (
