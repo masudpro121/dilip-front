@@ -4,8 +4,9 @@
 }
 .mynav{
     background: black;
-    position: relative;
-    min-height: 100vh;
+    position: sticky;
+    height: 100vh;
+    top: 0;
 }
 .mynav .tabs{
     width: 220px

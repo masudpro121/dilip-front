@@ -8,6 +8,7 @@ import getPrettyTime from "../../utils/getPrettyTime";
 import { useContext } from "react";
 import { MyContext } from "../../App";
 import PodcastImg from '../../assets/img/podcast.png'
+import EpisodeImg from '../../assets/img/episodes.png'
 export default function Episode({ episode, podcast }) {
   const audioRef = useRef(null);
   const description = episode.description
@@ -40,7 +41,10 @@ export default function Episode({ episode, podcast }) {
         </div>
         <div className="section2">
           <div>
-            <img  src={episode.image} alt="" />
+            {
+              episode.image ? <img  src={episode.image} alt="" />
+              : <img  src={EpisodeImg} alt="" />
+            }
           </div>
           <div>
             <Link to={"/podcast/episode/" + episode.feedId + "/" + episode.id}>

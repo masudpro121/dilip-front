@@ -72,8 +72,19 @@ export const getAITranscription = (enclosureUrl) => {
     })
 }
 
-
 // get author
 export const getAuthor = (feedId) => {
     return fetch(server+'/podcast/author/'+feedId)
+}
+
+
+// get Summary
+export const getSummary = (text, type) => {
+    return fetch(server+'/podcast/summary', {
+        method: 'POST',
+        headers: {
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify({text, type})
+    })
 }
