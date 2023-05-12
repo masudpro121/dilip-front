@@ -7,10 +7,10 @@ import AudioPlayer from "../AudioPlayer/AudioPlayer";
 import { useRef } from "react";
 import "./episodeDetails.css"
 import getPrettyTime from "../../utils/getPrettyTime";
+import PodcastImg from '../../assets/img/podcast.png'
 export default function EpisodeDetails() {
   const audioRef = useRef(null);
   const { feedId, episodeId } = useParams();
-  const [ author, setAuthor ] = useState({});
   const [episode, setEpisode] = useState({});
   const [transcription, setTranscription] = useState({});
   const [count, setCount] = useState(1);
@@ -55,14 +55,18 @@ export default function EpisodeDetails() {
           <h3>{episode.title}</h3>
           <div className="d-flex align-items-center">
             <div>
-              <img
-                style={{ width: "80px" }}
-                src={episode.persons[0].img}
-                alt=""
-              />
+             {
+             episode.persons?  <img style={{ width: "80px" }} src={episode.persons[0].img} alt="" />
+             : <img style={{ width: "80px" }} src={PodcastImg} alt="" />
+            }
             </div>
             <div>
-              <p>{episode.persons[0].name}</p>
+              <p>
+                {
+                  episode.persons ? episode.persons[0].name
+                  : 'Artist Name'
+                }
+              </p>
             </div>
           </div>
           <p>Released: {episode.datePublishedPretty}</p>

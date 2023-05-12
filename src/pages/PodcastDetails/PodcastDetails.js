@@ -8,13 +8,15 @@ import withNavbar from '../../hocs/withNavbar'
 
  function PodcastDetails() {
     const [episodes, setEpisodes] = useState([])
+    const [podcast, setPodcast] = useState({})
     const {id} = useParams()
     useEffect(()=>{
         getEpisodes(id)
         .then(res=>res.json())
         .then(res=>{
             console.log(res.data, 'episodes');
-            setEpisodes(res.data)
+            setEpisodes(res.data.items)
+            setPodcast(res.data.podcast)
         })
     },[])
   return (
@@ -23,7 +25,7 @@ import withNavbar from '../../hocs/withNavbar'
             episodes.map(episode=>{
                 return (
                     <div key={episode.id}>
-                        <Episode data={episode} />
+                        <Episode episode={episode} podcast={podcast} />
                     </div>
 
                 )

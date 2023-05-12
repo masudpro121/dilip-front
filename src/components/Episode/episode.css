@@ -3,12 +3,16 @@
     background-color: var(--bgColor);
     margin: 30px 10px;
     width: 90%;
+    border: 1px solid lightgray;
+    padding: 15px;
+    border-radius: 5px;
 }
 .episode img{
-    width: 280px;
-    height: 180px;
+    width: 240px;
+    height: 150px;
     object-fit: cover;
     object-position: top;
+    border-radius: 5px;
 }
 .episode .section2{
     display: flex;

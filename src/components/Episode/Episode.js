@@ -5,44 +5,52 @@ import { Link } from "react-router-dom";
 import AudioPlayer from "../AudioPlayer/AudioPlayer";
 import "./episode.css";
 import getPrettyTime from "../../utils/getPrettyTime";
-
-export default function Episode({ data }) {
+import { useContext } from "react";
+import { MyContext } from "../../App";
+import PodcastImg from '../../assets/img/podcast.png'
+export default function Episode({ episode, podcast }) {
   const audioRef = useRef(null);
-  const description = data.description
+  const description = episode.description
     .replace(/(<p>Visit).*(<\/p>)/gi, "")
     .replaceAll(/<h2>|<\/h2>|<br\/>|<p>|<\/p>/gim, "")
-    .slice(0,250)
+    .slice(0,500)
   return (
     <div className="episode">
         <div className="section1">
-         {
-          data.persons &&
           <div className="person">
-            <img  src={data.persons[0].img} alt="" />
+            {
+              episode.persons ? <img  src={episode.persons[0].img} alt="" /> 
+              :<img src={PodcastImg}  alt="" /> 
+            }
             <div>
-              <p>{data.persons[0].name}</p>
-              <p>{data.persons[0].role}</p>
+              <b>{podcast.title}</b>
+              {
+                episode.persons ? <p>{episode.persons[0].name}</p>
+                : <p>Artist Name</p>
+              }
             </div>
           </div>
-         }
          <div>
-          <h5>{data.title}</h5>
+          <h5>{episode.title}</h5>
+          <div className="d-flex gap-3">
+            <p>Release on: {episode.datePublishedPretty}</p>
+            <p>Duration: {getPrettyTime(episode.duration)}</p>
+          </div>
          </div>
         </div>
         <div className="section2">
           <div>
-            <img  src={data.image} alt="" />
+            <img  src={episode.image} alt="" />
           </div>
           <div>
-            <Link to={"/podcast/episode/" + data.feedId + "/" + data.id}>
+            <Link to={"/podcast/episode/" + episode.feedId + "/" + episode.id}>
               <div className="mt-2">{description}...</div>
-              <div className="mt-3">{getPrettyTime(data.duration)}</div>
             </Link>
             {/* <div>
               <AudioPlayer
                 audioRef={audioRef}
-                enclosureType={data.enclosureType}
-                enclosureUrl={data.enclosureUrl}
+                enclosureType={episode.enclosureType}
+                enclosureUrl={episode.enclosureUrl}
               />
             </div> */}
           </div>
