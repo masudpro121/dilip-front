@@ -1,10 +1,6 @@
 :root{
-  --bgColor: #F5F5F5;
-  --bgColor2: white;
-  --textColor: #2D3654;
-  --textColor2: #f0f5f0;
-  --primary-color: #7b0e9c86;
-  --secondaryColor: #959BA5;
+  --bgColor: #1E1E1E;
+  --textColor: #f0eeee;
   --primaryGradient: linear-gradient(110deg, #04756f, #013532f5);
   --secondaryGradient: linear-gradient(to left, #03524e, #013532);
   --primary-font: 'Poppins', sans-serif;
@@ -16,6 +12,7 @@
   text-decoration: none;
   border: none;
   font-family: var(--primary-font);
+  color: var(--textColor);
  
  }
 p, h1,h2,h3,h4,h5,h6{
@@ -46,7 +43,10 @@ button{
 }
 
 
-
+a{
+  text-decoration: none!important;
+  color: white !important;
+}
 
 
 
