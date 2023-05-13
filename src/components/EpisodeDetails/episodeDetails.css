@@ -61,7 +61,7 @@ pre {
   color: var(--textColor2);
 }
 
-.episodeDetails .readmore{
+.episodeDetails .readmore, .episodeDetails .summary {
   display: none;
   float: right;
   margin-top: 7px
@@ -69,5 +69,7 @@ pre {
 
 .episodeDetails .insight:hover .readmore, .episodeDetails .descrip:hover .readmore{
   display: block;
-  
+}
+.episodeDetails .insight:hover .summary, .episodeDetails .descrip:hover .summary{
+  display: block;
 }

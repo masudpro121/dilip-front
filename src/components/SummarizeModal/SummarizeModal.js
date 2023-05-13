@@ -10,17 +10,23 @@ export default function SummarizeModal({text, myclass}) {
     const [summary, setSummary] = useState({})
     console.log(summary);
     const summaryIt = (opt) =>{
-        console.log('sum');
-        getSummary(text, option)
+        getSummary(text, opt)
         .then(res=>res.json())
         .then(res=>{
+            console.log(res, 'res');
             setSummary({...summary, [opt]:res.data})
         })
     }
     const handleClose = () => setShow(false);
-    const handleShow = () => {
+    const handleReadMore = () => {
         setShow(true)
+        setOption('short')
         summaryIt(option)
+    };
+    const handleSummary = () => {
+        setShow(true)
+        setOption('little')
+        summaryIt('little')
     };
 
     const handleChangeOption = (op) =>{
@@ -36,23 +42,26 @@ export default function SummarizeModal({text, myclass}) {
                 <div>
                     <small>{text}</small>
                 </div>
-                <button onClick={handleShow} className='readmore'>Read More</button>
+                <button onClick={handleReadMore} className='readmore'>Read More</button>
+                <button onClick={handleSummary} className='summary mx-2'>Summarize</button>
                 </div>
             </div>
         </div>
 
         <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-            <div>{text}</div>
+        <Modal.Header >
+            <div>{text.split(' ').slice(0,15).join(' ')}. . .</div>
             <div>
-                <select onChange={e=>handleChangeOption(e.target.value)}>
-                    <option value="short">Short</option>
-                    <option value="medium">Medium</option>
-                    <option value="large">Long</option>
+                <select  onChange={e=>handleChangeOption(e.target.value)}>
+                    <option selected={option=="little"} value="little">Summarize</option>
+                    <option selected={option=="short"} value="short">Short</option>
+                    <option selected={option=="medium"} value="medium">Medium</option>
+                    <option selected={option=="large"} value="large">Long</option>
                 </select>
             </div>
         </Modal.Header>
         <Modal.Body>
+                {option=='little'&& <div>{summary["little"]}</div>}
                 {option=='short'&& <div>{summary["short"]}</div>}
                 {option=='medium' && <div>{summary["medium"]}</div>}
                 {option=='large' && <div>{summary["large"]}</div>}
