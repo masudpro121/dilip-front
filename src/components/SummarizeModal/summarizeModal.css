@@ -1,0 +1,7 @@
+.modal-content{
+    background-color:var(--bgColor);
+    color: white;
+}
+.modal-content select{
+    background-color: var(--bgColor2);
+}

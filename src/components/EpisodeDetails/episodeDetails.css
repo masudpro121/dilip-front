@@ -48,14 +48,26 @@ pre {
   padding: 8px 15px;
   border-radius: 7px;
 }
+
 .episodeDetails .insight, .episodeDetails .descrip{
   padding: 5px 10px;
   border-radius: 5px;
-  cursor: pointer;
 }
-.episodeDetails .descrip:hover{
+.episodeDetails .insight:hover, .episodeDetails .descrip:hover{
   background-color: var(--bgColor2);
+  padding-bottom: 45px;
 }
-.episodeDetails .descrip:hover small{
-  color: var(--textColor2)
+.episodeDetails .insight:hover small,.episodeDetails .descrip:hover small{
+  color: var(--textColor2);
+}
+
+.episodeDetails .readmore{
+  display: none;
+  float: right;
+  margin-top: 7px
+}
+
+.episodeDetails .insight:hover .readmore, .episodeDetails .descrip:hover .readmore{
+  display: block;
+  
 }

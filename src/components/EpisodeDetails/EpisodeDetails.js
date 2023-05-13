@@ -18,6 +18,7 @@ import PodcastImg from "../../assets/img/podcast.png";
 import withNavbar from "../../hocs/withNavbar";
 import ListenImg from "../../assets/img/listen.png";
 import { CgEreader } from "react-icons/cg";
+import SummarizeModal from "../SummarizeModal/SummarizeModal";
 
 function EpisodeDetails() {
   const audioRef = useRef(null);
@@ -155,12 +156,8 @@ function EpisodeDetails() {
               <h5 className="mb-2 mt-5">Key Insights:</h5>
               {/* <pre style={{marginTop:'-30px'}}>{transcription.keyInsights}</pre> */}
               {
-                transcription.keyInsights.split('\n').filter(i=>i.length).map(insight=>{
-                  return (
-                    <div className="insight">
-                      <small>{insight}</small>
-                    </div>
-                  )
+                transcription && transcription.keyInsights.split('\n').filter(i=>i.length).map(insight=>{
+                  return <SummarizeModal text={insight} myclass="insight" /> 
                 })
               }
             </div>
@@ -174,11 +171,8 @@ function EpisodeDetails() {
                       {/* <pre style={{marginTop:'-30px'}} className="description">{transcription.detailsOfTitles[i]}</pre> */}
                       {
                         transcription.detailsOfTitles[i].split('\n').filter(i=>i.length).map(descrip=>{
-                          return (
-                            <div className="descrip">
-                              <small>{descrip}</small>
-                            </div>
-                          )
+                          return <SummarizeModal text={descrip} myclass="descrip" />
+                           
                         })
                       }
                     </div>
