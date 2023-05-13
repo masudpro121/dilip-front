@@ -15,6 +15,9 @@ import "./episodeDetails.css";
 import getPrettyTime from "../../utils/getPrettyTime";
 import PodcastImg from "../../assets/img/podcast.png";
 import withNavbar from "../../hocs/withNavbar";
+import ListenImg from "../../assets/img/listen.png"
+import {CgEreader} from 'react-icons/cg'
+
 function EpisodeDetails() {
   const audioRef = useRef(null);
   const { feedId, episodeId } = useParams();
@@ -23,7 +26,7 @@ function EpisodeDetails() {
   const [transcription, setTranscription] = useState("");
   const [count, setCount] = useState(1);
   const [summary, setSummary] = useState('')
-
+  const [isPlaying, setIsPlaying] = useState(false)
   const formatDescription = (text) => {
     return text.replace(/(<p>Visit).*(<\/p>)/gi, '').replaceAll(/<p>|<\/p>/gi, '')
   }
@@ -73,7 +76,7 @@ function EpisodeDetails() {
   //       });
   //   }
   // }, [episode]);
-
+console.log(episode, 'episode');
   return (
     <div className="episodeDetails">
       {episode.id && (
@@ -104,15 +107,25 @@ function EpisodeDetails() {
           </div>
           
 
-          {/* <div>
+          <div className="listen-section">
             {episode.enclosureType && (
-              <AudioPlayer
+              <div style={{display:'none'}}><AudioPlayer
                 audioRef={audioRef}
                 enclosureType={episode.enclosureType}
                 enclosureUrl={episode.enclosureUrl}
-              />
+            /></div>
             )}
-          </div> */}
+            <div className="reader">
+              <CgEreader style={{fontSize:'25px'}} />
+              <p>12 Minute Read</p>
+            </div>
+            <img src={ListenImg} className="playerBtn" onClick={()=>{
+              isPlaying? audioRef.current.pause()
+              : audioRef.current.play()
+              setIsPlaying(!isPlaying)
+            }}></img>
+            
+          </div>
           {
             summary && transcription &&
             <div className="descriptions">
