@@ -60,6 +60,16 @@ export const getTranscriptionByUrl = (transUrl) => {
         body: JSON.stringify({transUrl})
     })
 }
+// get  Details Transcription by url
+export const getDetailsTranscription = (transUrl) => {
+    return fetch(server+'/podcast/details-transcription', {
+        method: 'POST',
+        headers: {
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify({transUrl})
+    })
+}
 
 // get AI transcription
 export const getAITranscription = (enclosureUrl) => {

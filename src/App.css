@@ -1,6 +1,8 @@
 :root{
   --bgColor: #1E1E1E;
+  --bgColor2: #2c2b2b;
   --textColor: #f0eeee;
+  --textColor2: #FFF200;
   --primaryGradient: linear-gradient(110deg, #04756f, #013532f5);
   --secondaryGradient: linear-gradient(to left, #03524e, #013532);
   --primary-font: 'Poppins', sans-serif;

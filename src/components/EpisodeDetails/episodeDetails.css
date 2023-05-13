@@ -31,10 +31,6 @@ pre {
   margin-top: 30px;
 }
 
-.episodeDetails .descriptions{
-  font-size: 14px;
-}
-
 .episodeDetails .playerBtn{
   width: 120px;
   cursor: pointer;
@@ -48,8 +44,18 @@ pre {
   display: flex;
   gap: 10px;
   align-items: center;
-  background-color: #2c2b2b;
+  background-color: var(--bgColor2);
   padding: 8px 15px;
   border-radius: 7px;
-
+}
+.episodeDetails .insight, .episodeDetails .descrip{
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.episodeDetails .descrip:hover{
+  background-color: var(--bgColor2);
+}
+.episodeDetails .descrip:hover small{
+  color: var(--textColor2)
 }
