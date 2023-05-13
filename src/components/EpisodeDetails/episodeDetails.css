@@ -7,4 +7,30 @@ pre {
 
 .episodeDetails{
   background-color: var(--bgColor);
+  width: 70%;
+  margin: auto
+}
+
+.episodeDetails .person{
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.episodeDetails .person img{
+  width: 50px
+}
+.episodeDetails  .times{
+  display: flex;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.episodeDetails .title{
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-top: 30px;
+}
+
+.episodeDetails .descriptions{
+  font-size: 14px;
 }
