@@ -8,6 +8,7 @@ import { validate } from './apis/server';
 import { getCookie } from './utils/cookie';
 import EpisodeDetails from './components/EpisodeDetails/EpisodeDetails';
 import PodcastDetails from './pages/PodcastDetails/PodcastDetails';
+import SpeakIt from './components/SpeakIt/SpeakIt';
 
 // Router 
 
@@ -28,7 +29,8 @@ function App() {
     { path: "/podcast/:id", element: <PodcastDetails/> },
     { path: "/signup", element: <Signup/> },
     { path: "/signin", element: <Signin/> },
-    { path: "/", element: <Home/>},
+    // { path: "/", element: <Home/>},
+    { path: "/", element: <SpeakIt/>},
   ]);
   
   return (

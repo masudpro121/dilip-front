@@ -2,61 +2,48 @@ import React, { useState, useEffect } from 'react';
 
 function SpeakIt() {
   const [text, setText] = useState('');
-  const [voices, setVoices] = useState([]);
   const [selectedVoice, setSelectedVoice] = useState(null);
-  const [rate, setRate] = useState(1.0);
-  const [pitch, setPitch] = useState(1.0);
-const synth = window.speechSynthesis;
-  useEffect(() => {
-    const voices = synth.getVoices();
-    setVoices(voices);
-    setSelectedVoice(voices[0]);
-  }, []);
-console.log(voices, 'voices');
+  const voices = window.speechSynthesis.getVoices();
+
+
   const speak = () => {
-    if (selectedVoice) {
-      const synth = window.speechSynthesis;
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.voice = selectedVoice;
-      utterance.rate = rate;
-      utterance.pitch = pitch;
-      synth.speak(utterance);
+    window.speechSynthesis.cancel()
+    const chunks = text.match(/[^\.!\?]+[\.!\?]+/g); // split text into chunks by sentences
+    for (let i = 0; i < chunks.length; i++) {
+      const utterance = new SpeechSynthesisUtterance(chunks[i]);
+      utterance.voice = voices.find(v => v.name === "Google UK English Male");
+      utterance.rate = 0.92;
+      utterance.pitch = 1.0;
+      window.speechSynthesis.speak(utterance);
     }
   };
 
-  const handleVoiceChange = (event) => {
-    setSelectedVoice(voices.find((voice) => voice.name === event.target.value));
-  };
-
-  const handleRateChange = (event) => {
-    setRate(event.target.value);
-  };
-
-  const handlePitchChange = (event) => {
-    setPitch(event.target.value);
-  };
-
+  const cancelSpeak = () => {
+    window.speechSynthesis.cancel()
+  }
+ 
   return (
-    <div>
-      <textarea onChange={(e) => setText(e.target.value)} />
+    <div >
+      <textarea style={{width:'500px', height:'300px', background:'black'}}  onChange={(e) => setText(e.target.value)} />
      <div>
-     <select onChange={handleVoiceChange}>
+     {/* <select style={{background:'black'}} onChange={handleVoiceChange} defaultValue={selectedVoice?.name}>
         {voices.map((voice) => (
           <option key={voice.name} value={voice.name}>
             {voice.name}
           </option>
         ))}
-      </select>
+      </select> */}
      </div> 
-      <label>
+      {/* <label>
         Rate:
         <input type="range" min="0.1" max="10" step="0.1" value={rate} onChange={handleRateChange} />
       </label>
       <label>
         Pitch:
         <input type="range" min="0.1" max="10" step="0.1" value={pitch} onChange={handlePitchChange} />
-      </label>
+      </label> */}
       <button onClick={speak}>Speak</button>
+      <button onClick={cancelSpeak}>cancel</button>
     </div>
   );
 }
