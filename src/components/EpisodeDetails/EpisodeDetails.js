@@ -28,6 +28,7 @@ function EpisodeDetails() {
   const [count, setCount] = useState(1);
   const [summary, setSummary] = useState("");
   const [isPlaying, setIsPlaying] = useState(false);
+  const [textLength, setTextLength] = useState(0);
   const formatDescription = (text) => {
     return text
       .replace(/(<p>Visit).*(<\/p>)/gi, "")
@@ -41,14 +42,14 @@ function EpisodeDetails() {
       .then((res) => {
         setEpisode(res.data);
 
-        if (res.data) {
-          const mydescription = formatDescription(res.data.description);
-          getSummary(mydescription, "short")
-            .then((res) => res.json())
-            .then((result) => {
-              setSummary(result.data);
-            });
-        }
+        // if (res.data) {
+        //   const mydescription = formatDescription(res.data.description);
+        //   getSummary(mydescription, "short")
+        //     .then((res) => res.json())
+        //     .then((result) => {
+        //       setSummary(result.data);
+        //     });
+        // }
       });
   }, []);
 
@@ -58,7 +59,6 @@ function EpisodeDetails() {
       getAITranscription(episode.enclosureUrl)
         .then((res) => res.json())
         .then((res) => {
-          setTranscriptions(res.data);
           const formattedTranscriptions = res.data.map(transcription=>{
             return {
               headline: transcription.match(/^(<Headline>)(.+)(<\/Headline>$)/gm)[0].replaceAll(/(<Headline>)|(<\/Headline>)/g, ''),
@@ -69,10 +69,13 @@ function EpisodeDetails() {
             }
           })
           setTranscriptions(formattedTranscriptions)
+          setTextLength(formattedTranscriptions.reduce((total, current)=>total=total.summarize.length+current.summarize.length))
         });
-    }
-  }, [episode]);
-
+      }
+    }, [episode]);
+    
+    // console.log();
+    console.log(transcriptions);
   // useEffect(() => {
   //   if (episode.transcriptUrl && count == 1) {
   //     setCount(count + 1);
@@ -144,7 +147,7 @@ function EpisodeDetails() {
             )}
             <div className="reader">
               <CgEreader style={{ fontSize: "25px" }} />
-              <p>12 Minute Read</p>
+              <p>{Math.floor(textLength/250)} Minute Read</p>
             </div>
             <img
               src={ListenImg}
