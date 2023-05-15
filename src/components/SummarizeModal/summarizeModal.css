@@ -12,3 +12,14 @@
     align-items: flex-end;
     flex-direction: column;
 }
+
+
+.hov{
+    /* display: none; */
+    display: flex;
+    justify-content: space-between;
+}
+
+/* .summarizeModal:hover .hov{
+    display: block;
+} */

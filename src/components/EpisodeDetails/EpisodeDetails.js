@@ -41,15 +41,6 @@ function EpisodeDetails() {
       .then((res) => res.json())
       .then((res) => {
         setEpisode(res.data);
-
-        // if (res.data) {
-        //   const mydescription = formatDescription(res.data.description);
-        //   getSummary(mydescription, "short")
-        //     .then((res) => res.json())
-        //     .then((result) => {
-        //       setSummary(result.data);
-        //     });
-        // }
       });
   }, []);
 
@@ -59,17 +50,31 @@ function EpisodeDetails() {
       getAITranscription(episode.enclosureUrl)
         .then((res) => res.json())
         .then((res) => {
-          const formattedTranscriptions = res.data.map(transcription=>{
-            return {
-              headline: transcription.match(/^(<Headline>)(.+)(<\/Headline>$)/gm)[0].replaceAll(/(<Headline>)|(<\/Headline>)/g, ''),
-              summarize: transcription.match(/^(<Summarize>)(.+)(<\/Summarize>$)/gm)[0].replaceAll(/(<Summarize>)|(<\/Summarize>)/g, ''),
-              short: transcription.match(/^(<Short>)(.+)(<\/Short>$)/gm)[0].replaceAll(/(<Short>)|(<\/Short>)/g, ''),
-              medium: transcription.match(/^(<Medium>)(.+)(<\/Medium>$)/gm)[0].replaceAll(/(<Medium>)|(<\/Medium>)/g, ''),
-              large: transcription.match(/^(<Large>)(.+)(<\/Large>$)/gm)[0].replaceAll(/(<Large>)|(<\/Large>)/g, ''),
+          console.log(res.data, 'original response');
+          const formattedTranscriptions = res.data.map((transcription, index)=>{
+            if(transcription.endTime>10){
+              return {
+                headline: transcription.text.match(/^(<Headline>)(.+)(<\/Headline>$)/gm)[0].replaceAll(/(<Headline>)|(<\/Headline>)/g, ''),
+                summarize: transcription.text.match(/^(<Summarize>)(.+)(<\/Summarize>$)/gm)[0].replaceAll(/(<Summarize>)|(<\/Summarize>)/g, ''),
+                short: transcription.text.match(/^(<Short>)(.+)(<\/Short>$)/gm)[0].replaceAll(/(<Short>)|(<\/Short>)/g, ''),
+                medium: transcription.text.match(/^(<Medium>)(.+)(<\/Medium>$)/gm)[0].replaceAll(/(<Medium>)|(<\/Medium>)/g, ''),
+                large: transcription.text.match(/^(<Large>)(.+)(<\/Large>$)/gm)[0].replaceAll(/(<Large>)|(<\/Large>)/g, ''),
+                endTime: res.data.reduce((total, current, position)=>{
+                  if(index==0){
+                    return 0
+                  }
+                  if(position<index){
+                    return total  + current.endTime
+                  }
+                  return total
+                },0)
+              }
             }
           })
-          setTranscriptions(formattedTranscriptions)
-          const tl = formattedTranscriptions.reduce((total, current)=>total=total.summarize.length+current.summarize.length)
+          setTranscriptions(formattedTranscriptions.filter(i=>i))
+          const tl = formattedTranscriptions.filter(i=>i).reduce((total, current)=>{
+            return total+current.summarize.length
+          },0)
           setTextLength(tl)
           console.log(tl, 'text length')
         });
@@ -78,38 +83,7 @@ function EpisodeDetails() {
     
     // console.log();
     console.log(transcriptions);
-    console.log(textLength, 'text length')
-  // useEffect(() => {
-  //   if (episode.transcriptUrl && count == 1) {
-  //     setCount(count + 1);
-  //     getDetailsTranscription(episode.transcriptUrl)
-  //       .then((result) => result.json())
-  //       .then((result) => {
-  //         setTranscription(result.data);
-  //       });
-  //   }
-  // }, [episode]);
-
-  // useEffect(() => {
-  //   if (episode.transcriptUrl && count == 1) {
-  //     setCount(count + 1);
-  //     getDefaultTranscription(episode.transcriptUrl)
-  //       .then((res) => res.json())
-  //       .then((res) => {
-  //         setTranscription(res.data);
-  //       });
-  //   }
-
-  //   console.log(transcription, "trans");
-  //   if (!episode.transcriptUrl && episode.enclosureUrl && count == 1) {
-  //     setCount(count + 1);
-  //     getAITranscription(episode.enclosureUrl)
-  //       .then((res) => res.json())
-  //       .then((res) => {
-  //         setTranscription(res.data);
-  //       });
-  //   }
-  // }, [episode]);
+  
   
   return (
     <div className="episodeDetails">
@@ -165,9 +139,9 @@ function EpisodeDetails() {
           </div>
           <div className="mt-5">
             {
-              transcriptions.map(transcription=>{
+              transcriptions.map((transcription, id)=>{
                 return(
-                  <div className="mt-4">
+                  <div key={id} className="mt-4">
                     <h5 className="mb-2">{transcription.headline}</h5>
                     <SummarizeModal text={transcription}  myclass='descrip' />
                   </div>

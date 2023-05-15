@@ -61,15 +61,8 @@ pre {
   color: var(--textColor2);
 }
 
-.episodeDetails .readmore, .episodeDetails .summary {
-  display: none;
+/* .episodeDetails .readmore, .episodeDetails .summary {
   float: right;
   margin-top: 7px
-}
+} */
 
-.episodeDetails .insight:hover .readmore, .episodeDetails .descrip:hover .readmore{
-  display: block;
-}
-.episodeDetails .insight:hover .summary, .episodeDetails .descrip:hover .summary{
-  display: block;
-}
