@@ -69,13 +69,16 @@ function EpisodeDetails() {
             }
           })
           setTranscriptions(formattedTranscriptions)
-          setTextLength(formattedTranscriptions.reduce((total, current)=>total=total.summarize.length+current.summarize.length))
+          const tl = formattedTranscriptions.reduce((total, current)=>total=total.summarize.length+current.summarize.length)
+          setTextLength(tl)
+          console.log(tl, 'text length')
         });
       }
     }, [episode]);
     
     // console.log();
     console.log(transcriptions);
+    console.log(textLength, 'text length')
   // useEffect(() => {
   //   if (episode.transcriptUrl && count == 1) {
   //     setCount(count + 1);
@@ -107,7 +110,7 @@ function EpisodeDetails() {
   //       });
   //   }
   // }, [episode]);
-  console.log(transcriptions, "formatted transcriptions");
+  
   return (
     <div className="episodeDetails">
       {episode.id && (
@@ -145,10 +148,12 @@ function EpisodeDetails() {
                 />
               </div>
             )}
-            <div className="reader">
+            {
+              (textLength/250)>0 && <div className="reader">
               <CgEreader style={{ fontSize: "25px" }} />
               <p>{Math.floor(textLength/250)} Minute Read</p>
             </div>
+            }
             <img
               src={ListenImg}
               className="playerBtn"
