@@ -29,8 +29,8 @@ function App() {
     { path: "/podcast/:id", element: <PodcastDetails/> },
     { path: "/signup", element: <Signup/> },
     { path: "/signin", element: <Signin/> },
-    // { path: "/", element: <Home/>},
-    { path: "/", element: <SpeakIt/>},
+    { path: "/", element: <Home/>},
+    // { path: "/", element: <SpeakIt/>},
   ]);
   
   return (

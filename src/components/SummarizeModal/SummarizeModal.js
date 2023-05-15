@@ -3,44 +3,40 @@ import { useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import "./summarizeModal.css"
 import { getSummary } from '../../apis/server';
+import { cancelSpeak, speak } from '../../utils/speak';
 
 export default function SummarizeModal({text, myclass}) {
     const [show, setShow] = useState(false);
     const [option, setOption] = useState('short');
-    const [summary, setSummary] = useState({})
-    console.log(summary);
-    const summaryIt = (opt) =>{
-        getSummary(text, opt)
-        .then(res=>res.json())
-        .then(res=>{
-            console.log(res, 'res');
-            setSummary({...summary, [opt]:res.data})
-        })
-    }
-    const handleClose = () => setShow(false);
+    
+    const handleClose = () => {
+        setShow(false)
+        cancelSpeak()
+    };
     const handleReadMore = () => {
         setShow(true)
-        setOption('short')
-        summaryIt(option)
+        handleChangeOption('medium')
+        
     };
     const handleSummary = () => {
         setShow(true)
-        setOption('little')
-        summaryIt('little')
+        handleChangeOption('short')
     };
 
     const handleChangeOption = (op) =>{
         setOption(op)
-        summaryIt(op)
+        cancelSpeak()
     }
-    
+    const handlePlay=()=>{
+        speak(text[option])
+    }
   return (
     <div className='summarizeModal'>
         <div className={myclass}>
             <div>
                 <div>
                 <div>
-                    <small>{text}</small>
+                    <small>{text.summarize}</small>
                 </div>
                 <button onClick={handleReadMore} className='readmore'>Read More</button>
                 <button onClick={handleSummary} className='summary mx-2'>Summarize</button>
@@ -50,26 +46,29 @@ export default function SummarizeModal({text, myclass}) {
 
         <Modal show={show} onHide={handleClose}>
         <Modal.Header >
-            <div>{text.split(' ').slice(0,15).join(' ')}. . .</div>
-            <div>
-                <select  onChange={e=>handleChangeOption(e.target.value)}>
-                    <option selected={option=="little"} value="little">Summarize</option>
-                    <option selected={option=="short"} value="short">Short</option>
-                    <option selected={option=="medium"} value="medium">Medium</option>
-                    <option selected={option=="large"} value="large">Long</option>
+            <div>{text.headline.split(' ').slice(0,15).join(' ')}. . .</div>
+            <div style={{width:'100%', display:'flex', justifyContent:'flex-end'}}>
+                <select  defaultValue={option} onChange={e=>handleChangeOption(e.target.value)}>
+                    <option  value="short">Short</option>
+                    <option  value="medium">Medium</option>
+                    <option value="large">Long</option>
                 </select>
             </div>
         </Modal.Header>
         <Modal.Body>
-                {option=='little'&& <div>{summary["little"]}</div>}
-                {option=='short'&& <div>{summary["short"]}</div>}
-                {option=='medium' && <div>{summary["medium"]}</div>}
-                {option=='large' && <div>{summary["large"]}</div>}
+                {option=='short'&& <div>{text.short}</div>}
+                {option=='medium' && <div>{text.medium}</div>}
+                {option=='large' && <div>{text.large}</div>}
         </Modal.Body>
         <Modal.Footer>
-          <button onClick={handleClose}>
-            Close
-          </button>
+          <div style={{display:'flex', justifyContent:'space-between', width:'100%'}}>
+            <button onClick={handlePlay}>
+                Play
+            </button>
+            <button onClick={handleClose}>
+                Close
+            </button>
+          </div>
         </Modal.Footer>
       </Modal>
     </div>

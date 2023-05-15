@@ -1,5 +1,5 @@
 .modal-content{
-    background-color:var(--bgColor);
+    background-color:var(--bgColor)!important;
     color: white;
 }
 .modal-content select{
