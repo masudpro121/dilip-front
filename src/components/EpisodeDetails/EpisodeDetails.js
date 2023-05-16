@@ -26,9 +26,10 @@ function EpisodeDetails() {
   const [episode, setEpisode] = useState({});
   const [transcriptions, setTranscriptions] = useState([]);
   const [count, setCount] = useState(1);
-  const [summary, setSummary] = useState("");
   const [isPlaying, setIsPlaying] = useState(false);
   const [textLength, setTextLength] = useState(0);
+  const [summary, setSummary] = useState("");
+  const [keyInsights, setKeyInsights] = useState("");
   const formatDescription = (text) => {
     return text
       .replace(/(<p>Visit).*(<\/p>)/gi, "")
@@ -51,7 +52,9 @@ function EpisodeDetails() {
         .then((res) => res.json())
         .then((res) => {
           console.log(res.data, 'original response');
-          const formattedTranscriptions = res.data.map((transcription, index)=>{
+          setSummary(res.data.summaryAndKeyInsights.match(/^(<Sum>)(.+)(<\/Sum>$)/gm)[0].replaceAll(/(<Sum>)|(<\/Sum>)/g, ''))
+          setKeyInsights(res.data.summaryAndKeyInsights.match(/^(<Insight>)(\n?(.*))*(<\/Insight>)/gm)[0].replaceAll(/(<Insight>)|(<\/Insight>)/g, ''))
+          const formattedTranscriptions = res.data.summarizeList.map((transcription, index)=>{
             if(transcription.endTime>10){
               return {
                 headline: transcription.text.match(/^(<Headline>)(.+)(<\/Headline>$)/gm)[0].replaceAll(/(<Headline>)|(<\/Headline>)/g, ''),
@@ -59,7 +62,7 @@ function EpisodeDetails() {
                 short: transcription.text.match(/^(<Short>)(.+)(<\/Short>$)/gm)[0].replaceAll(/(<Short>)|(<\/Short>)/g, ''),
                 medium: transcription.text.match(/^(<Medium>)(.+)(<\/Medium>$)/gm)[0].replaceAll(/(<Medium>)|(<\/Medium>)/g, ''),
                 large: transcription.text.match(/^(<Large>)(.+)(<\/Large>$)/gm)[0].replaceAll(/(<Large>)|(<\/Large>)/g, ''),
-                endTime: res.data.reduce((total, current, position)=>{
+                endTime: res.data.summarizeList.reduce((total, current, position)=>{
                   if(index==0){
                     return 0
                   }
@@ -137,9 +140,32 @@ function EpisodeDetails() {
               }}
             ></img>
           </div>
+          <div>
+            {
+              summary && 
+              <div className="mt-5">
+                <h5 className="mb-2">Summary:</h5>
+                <p>{summary}</p>
+              </div>
+            }
+            {
+              keyInsights && 
+              <div>
+                <h5 className="mt-4 mb-2">Key Insights:</h5>
+                {
+                  keyInsights.split("\n").map((ins, id)=>{
+                    return <p className="mb-1" key={ins+id}>{ins}</p>
+                  })
+                }
+              </div>
+            }
+          </div>
           <div className="mt-5">
             {
               transcriptions.map((transcription, id)=>{
+                if(transcription.endTime >  episode.duration ){
+                  return ''
+                }
                 return(
                   <div key={id} className="mt-4">
                     <h5 className="mb-2">{transcription.headline}</h5>
