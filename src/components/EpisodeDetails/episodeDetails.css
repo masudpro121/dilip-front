@@ -55,7 +55,7 @@ pre {
 }
 .episodeDetails .insight:hover, .episodeDetails .descrip:hover{
   background-color: var(--bgColor2);
-  padding-bottom: 45px;
+  padding-bottom: 15px;
 }
 .episodeDetails .insight:hover small,.episodeDetails .descrip:hover small{
   color: var(--textColor2);

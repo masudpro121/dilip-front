@@ -19,6 +19,7 @@ import withNavbar from "../../hocs/withNavbar";
 import ListenImg from "../../assets/img/listen.png";
 import { CgEreader } from "react-icons/cg";
 import SummarizeModal from "../SummarizeModal/SummarizeModal";
+import { Link, Element } from 'react-scroll';
 
 function EpisodeDetails() {
   const audioRef = useRef(null);
@@ -140,6 +141,22 @@ function EpisodeDetails() {
               }}
             ></img>
           </div>
+
+          <div className="tableContent">
+          {
+              transcriptions.map((transcription, id)=>{
+                if(transcription.endTime >  episode.duration ){
+                  return ''
+                }
+                return(
+                  <Link style={{cursor:'pointer'}} to={`section-${id}`} key={""+id+Math.random()*999} className="mt-4">
+                    <p>Section {id+1}</p>
+                  </Link>
+                )
+              })
+            }
+          </div>
+
           <div>
             {
               summary && 
@@ -167,46 +184,14 @@ function EpisodeDetails() {
                   return ''
                 }
                 return(
-                  <div key={id} className="mt-4">
-                    <h5 className="mb-2">{transcription.headline}</h5>
+                  <Element name={`section-${id}`} key={id} className="mt-4">
+                    <h5  className="mb-2">{transcription.headline}</h5>
                     <SummarizeModal text={transcription}  myclass='descrip' />
-                  </div>
+                  </Element>
                 )
               })
             }
           </div>
-          {/* <div>
-            <div className="mb-4 mt-4">
-              <h5 className="mb-2">Summary:</h5>
-              <small style={{marginTop:'-30px'}}>{transcription.summarize} </small>
-            </div>
-            <div className="keyInsights">
-              <h5 className="mb-2 mt-5">Key Insights:</h5>
-              {
-                transcription && transcription.keyInsights.split('\n').filter(i=>i.length).map(insight=>{
-                  return <SummarizeModal text={insight} myclass="insight" /> 
-                })
-              }
-            </div>
-            <div className="details">
-            {
-              transcription && 
-                transcription.titles.map((title, i)=>{
-                  return (
-                    <div >
-                      <h6 className="title mt-5 mb-2">{title}</h6>
-                      {
-                        transcription.detailsOfTitles[i] && transcription.detailsOfTitles[i].split('\n').filter(i=>i.length).map(descrip=>{
-                          return <SummarizeModal text={descrip} myclass="descrip" />
-                           
-                        })
-                      }
-                    </div>
-                  )
-                })
-            }
-            </div>
-          </div> */}
         </div>
       )}
     </div>

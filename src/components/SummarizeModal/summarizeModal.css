@@ -1,4 +1,4 @@
-.modal-content{
+/* .modal-content{
     background-color:var(--bgColor)!important;
     color: white;
 }
@@ -11,15 +11,50 @@
     border-bottom: 0;
     align-items: flex-end;
     flex-direction: column;
-}
+} */
 
 
 .hov{
-    /* display: none; */
-    display: flex;
-    justify-content: space-between;
+   display: none;
 }
 
-/* .summarizeModal:hover .hov{
-    display: block;
-} */
+.summarizeModal:hover .hov{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    align-items: center;
+}
+
+.hov .listen{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: var(--bgColor2);
+    padding: 5px 15px; 
+    border-radius: 10px;
+}
+
+.hov .btns{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.hov .summarizeBtn{
+    background-color: var(--bgColor2);
+    display: flex;
+    gap: 10px;
+    padding: 9px 15px; 
+    border-radius: 10px;
+    cursor: pointer;
+}
+.hov .summarizeBtn:hover {
+    border: 1px solid var(--textColor2)
+}
+.hov .readmoreBtn{
+    background-color: var(--textColor2);
+    display: flex;
+    gap: 10px;
+    padding: 7px 15px; 
+    border-radius: 10px;
+    cursor: pointer;
+}

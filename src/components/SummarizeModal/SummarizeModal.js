@@ -6,7 +6,9 @@ import { getSummary } from "../../apis/server";
 import { cancelSpeak, speak } from "../../utils/speak";
 import { CgEreader } from "react-icons/cg";
 import formatTime from "../../utils/formatTime";
-
+import ListenImg from "../../assets/img/listen2.png";
+import SummarizeImg from "../../assets/img/summarize.png";
+import ReadMoreImg from "../../assets/img/readmore.png";
 export default function SummarizeModal({ text, myclass }) {
   const [show, setShow] = useState(false);
   const [option, setOption] = useState("short");
@@ -41,16 +43,26 @@ export default function SummarizeModal({ text, myclass }) {
             </div>
 
             <div className="hov">
-              <div >
-                <p>{formatTime(text.endTime)} </p>
+              <div className="listen">
+                <div>
+                  <img src={ListenImg} style={{ width: "30px" }} />
+                </div>
+                <div>
+                  <p style={{ fontWeight: "500" }}>Listen to this section</p>
+                  <p>{formatTime(text.endTime)} </p>
+                </div>
               </div>
-              <div >
-                <button onClick={handleReadMore}>
-                    Read More
-                </button>
-                <button onClick={handleSummary} >
-                    Summarize
-                </button>
+              <div>
+                <div className="btns">
+                  <div className="summarizeBtn">
+                    <img style={{ width: "20px" }} src={SummarizeImg} alt="" />
+                    <div onClick={handleSummary}>Summarize</div>
+                  </div>
+                  <div className="readmoreBtn">
+                    <img style={{width:'20px'}} src={ReadMoreImg} alt="" />
+                    <div style={{color:'black'}} onClick={handleReadMore}>Read More</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
