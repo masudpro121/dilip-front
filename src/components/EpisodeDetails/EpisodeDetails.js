@@ -14,9 +14,11 @@ import AudioPlayer from "../AudioPlayer/AudioPlayer";
 import { useRef } from "react";
 import "./episodeDetails.css";
 import getPrettyTime from "../../utils/getPrettyTime";
-import PodcastImg from "../../assets/img/podcast.png";
 import withNavbar from "../../hocs/withNavbar";
+import PodcastImg from "../../assets/img/podcast.png";
 import ListenImg from "../../assets/img/listen.png";
+import ContentImg from "../../assets/img/contents.png";
+
 import { CgEreader } from "react-icons/cg";
 import SummarizeModal from "../SummarizeModal/SummarizeModal";
 import { Link, Element } from "react-scroll";
@@ -31,6 +33,7 @@ function EpisodeDetails() {
   const [textLength, setTextLength] = useState(0);
   const [summary, setSummary] = useState("");
   const [keyInsights, setKeyInsights] = useState("");
+  const [showTable, setShowTable] = useState(false)
   const formatDescription = (text) => {
     return text
       .replace(/(<p>Visit).*(<\/p>)/gi, "")
@@ -168,10 +171,16 @@ function EpisodeDetails() {
 
           <div className="original-episode">
             
-            
             {transcriptions.length > 0 && (
               <div className="tableContent">
-                <Link style={{ cursor: "pointer" }} to={`summarize`} className="mt-2">
+                <div style={{cursor:'pointer'}} onClick={()=>setShowTable(!showTable)}>
+                  <img style={{width:'15px', marginRight:'10px'}} src={ContentImg} alt="" />
+                  <b>Contents</b>
+                </div>
+                {
+                  showTable && 
+                  <>
+                  <Link style={{ cursor: "pointer" }} to={`summarize`} className="mt-3">
                   <p className="text">
                     Summarize
                   </p>
@@ -201,6 +210,8 @@ function EpisodeDetails() {
                     </Link>
                   );
                 })}
+                  </>
+                }
               </div>
             )}
 

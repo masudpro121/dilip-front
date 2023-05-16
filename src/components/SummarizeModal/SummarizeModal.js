@@ -12,7 +12,7 @@ import ReadMoreImg from "../../assets/img/readmore.png";
 export default function SummarizeModal({ text, myclass }) {
   const [show, setShow] = useState(false);
   const [option, setOption] = useState("short");
-
+  const [playing, setPlaying] = useState(false)
   const handleClose = () => {
     setShow(false);
     cancelSpeak();
@@ -31,7 +31,14 @@ export default function SummarizeModal({ text, myclass }) {
     cancelSpeak();
   };
   const handlePlay = () => {
-    speak(text[option]);
+    if(!playing){
+      cancelSpeak()
+      setPlaying(true)
+      speak(text[option]);
+   }else{
+    setPlaying(false)
+    cancelSpeak()
+   }
   };
   return (
     <div className="summarizeModal">
@@ -45,10 +52,10 @@ export default function SummarizeModal({ text, myclass }) {
             <div className="hov">
               <div className="listen" onClick={handlePlay}>
                 <div>
-                  <img src={ListenImg} style={{ width: "30px" }} />
+                  <img src={ListenImg} style={{ width: "25px" }} />
                 </div>
                 <div>
-                  <p style={{ fontWeight: "500" }}>Listen to this section</p>
+                  <small style={{ fontWeight: "500", color:'white' }}>Listen to this section</small>
                   <p>{formatTime(text.endTime)} </p>
                 </div>
               </div>
