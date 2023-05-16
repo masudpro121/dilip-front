@@ -7,8 +7,38 @@ pre {
 
 .episodeDetails{
   background-color: var(--bgColor);
+  width: 90%;
+  margin: auto;
+
+}
+
+
+.episodeDetails .original-episode{
+  display: flex;
+  gap: 30px;
+  position: relative;
+ 
+}
+
+.episodeDetails .tableContent{
+  max-width: 350px;
+  margin-top: 20px;
+  background-color: var(--bgColor2);
+  padding: 20px 10px;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  height: 90vh;
+  top: 30px;
+  overflow: auto;
+}
+
+.episodeDetails .rightSection{
   width: 70%;
-  margin: auto
+}
+
+.episodeDetails .tableContent .text:hover{
+  color: var(--textColor2)
 }
 
 .episodeDetails .person{

@@ -19,7 +19,7 @@ import withNavbar from "../../hocs/withNavbar";
 import ListenImg from "../../assets/img/listen.png";
 import { CgEreader } from "react-icons/cg";
 import SummarizeModal from "../SummarizeModal/SummarizeModal";
-import { Link, Element } from 'react-scroll';
+import { Link, Element } from "react-scroll";
 
 function EpisodeDetails() {
   const audioRef = useRef(null);
@@ -37,7 +37,7 @@ function EpisodeDetails() {
       .replaceAll(/<p>|<\/p>/gi, "");
   };
 
-  console.log(episode, 'episode');
+  console.log(episode, "episode");
   useEffect(() => {
     getEpisodeDetails(feedId, episodeId)
       .then((res) => res.json())
@@ -52,43 +52,67 @@ function EpisodeDetails() {
       getAITranscription(episode.enclosureUrl)
         .then((res) => res.json())
         .then((res) => {
-          console.log(res.data, 'original response');
-          setSummary(res.data.summaryAndKeyInsights.match(/^(<Sum>)(.+)(<\/Sum>$)/gm)[0].replaceAll(/(<Sum>)|(<\/Sum>)/g, ''))
-          setKeyInsights(res.data.summaryAndKeyInsights.match(/^(<Insight>)(\n?(.*))*(<\/Insight>)/gm)[0].replaceAll(/(<Insight>)|(<\/Insight>)/g, ''))
-          const formattedTranscriptions = res.data.summarizeList.map((transcription, index)=>{
-            if(transcription.endTime>10){
-              return {
-                headline: transcription.text.match(/^(<Headline>)(.+)(<\/Headline>$)/gm)[0].replaceAll(/(<Headline>)|(<\/Headline>)/g, ''),
-                summarize: transcription.text.match(/^(<Summarize>)(.+)(<\/Summarize>$)/gm)[0].replaceAll(/(<Summarize>)|(<\/Summarize>)/g, ''),
-                short: transcription.text.match(/^(<Short>)(.+)(<\/Short>$)/gm)[0].replaceAll(/(<Short>)|(<\/Short>)/g, ''),
-                medium: transcription.text.match(/^(<Medium>)(.+)(<\/Medium>$)/gm)[0].replaceAll(/(<Medium>)|(<\/Medium>)/g, ''),
-                large: transcription.text.match(/^(<Large>)(.+)(<\/Large>$)/gm)[0].replaceAll(/(<Large>)|(<\/Large>)/g, ''),
-                endTime: res.data.summarizeList.reduce((total, current, position)=>{
-                  if(index==0){
-                    return 0
-                  }
-                  if(position<index){
-                    return total  + current.endTime
-                  }
-                  return total
-                },0)
+          console.log(res.data, "original response");
+          setSummary(
+            res.data.summaryAndKeyInsights
+              .match(/^(<Sum>)(.+)(<\/Sum>$)/gm)[0]
+              .replaceAll(/(<Sum>)|(<\/Sum>)/g, "")
+          );
+          setKeyInsights(
+            res.data.summaryAndKeyInsights
+              .match(/^(<Insight>)(\n?(.*))*(<\/Insight>)/gm)[0]
+              .replaceAll(/(<Insight>)|(<\/Insight>)/g, "")
+          );
+          const formattedTranscriptions = res.data.summarizeList.map(
+            (transcription, index) => {
+              if (transcription.endTime > 10) {
+                return {
+                  headline: transcription.text
+                    .match(/^(<Headline>)(.+)(<\/Headline>$)/gm)[0]
+                    .replaceAll(/(<Headline>)|(<\/Headline>)/g, ""),
+                  summarize: transcription.text
+                    .match(/^(<Summarize>)(.+)(<\/Summarize>$)/gm)[0]
+                    .replaceAll(/(<Summarize>)|(<\/Summarize>)/g, ""),
+                  short: transcription.text
+                    .match(/^(<Short>)(.+)(<\/Short>$)/gm)[0]
+                    .replaceAll(/(<Short>)|(<\/Short>)/g, ""),
+                  medium: transcription.text
+                    .match(/^(<Medium>)(.+)(<\/Medium>$)/gm)[0]
+                    .replaceAll(/(<Medium>)|(<\/Medium>)/g, ""),
+                  large: transcription.text
+                    .match(/^(<Large>)(.+)(<\/Large>$)/gm)[0]
+                    .replaceAll(/(<Large>)|(<\/Large>)/g, ""),
+                  endTime: res.data.summarizeList.reduce(
+                    (total, current, position) => {
+                      if (index == 0) {
+                        return 0;
+                      }
+                      if (position < index) {
+                        return total + current.endTime;
+                      }
+                      return total;
+                    },
+                    0
+                  ),
+                };
               }
             }
-          })
-          setTranscriptions(formattedTranscriptions.filter(i=>i))
-          const tl = formattedTranscriptions.filter(i=>i).reduce((total, current)=>{
-            return total+current.summarize.length
-          },0)
-          setTextLength(tl)
-          console.log(tl, 'text length')
+          );
+          setTranscriptions(formattedTranscriptions.filter((i) => i));
+          const tl = formattedTranscriptions
+            .filter((i) => i)
+            .reduce((total, current) => {
+              return total + current.summarize.length;
+            }, 0);
+          setTextLength(tl);
+          console.log(tl, "text length");
         });
-      }
-    }, [episode]);
-    
-    // console.log();
-    console.log(transcriptions);
-  
-  
+    }
+  }, [episode]);
+
+  // console.log();
+  console.log(transcriptions);
+
   return (
     <div className="episodeDetails">
       {episode.id && (
@@ -126,12 +150,12 @@ function EpisodeDetails() {
                 />
               </div>
             )}
-            {
-              (textLength/250)>0 && <div className="reader">
-              <CgEreader style={{ fontSize: "25px" }} />
-              <p>{Math.floor(textLength/250)} Minute Read</p>
-            </div>
-            }
+            {textLength / 250 > 0 && (
+              <div className="reader">
+                <CgEreader style={{ fontSize: "25px" }} />
+                <p>{Math.floor(textLength / 250)} Minute Read</p>
+              </div>
+            )}
             <img
               src={ListenImg}
               className="playerBtn"
@@ -142,55 +166,79 @@ function EpisodeDetails() {
             ></img>
           </div>
 
-          <div className="tableContent">
-          {
-              transcriptions.map((transcription, id)=>{
-                if(transcription.endTime >  episode.duration ){
-                  return ''
-                }
-                return(
-                  <Link style={{cursor:'pointer'}} to={`section-${id}`} key={""+id+Math.random()*999} className="mt-4">
-                    <p>Section {id+1}</p>
-                  </Link>
-                )
-              })
-            }
-          </div>
+          <div className="original-episode">
+            
+            
+            {transcriptions.length > 0 && (
+              <div className="tableContent">
+                <Link style={{ cursor: "pointer" }} to={`summarize`} className="mt-2">
+                  <p className="text">
+                    Summarize
+                  </p>
+                </Link>
+                <Link style={{ cursor: "pointer" }} to={`keyinsights`} className="mt-2" >
+                  <p className="text">
+                    Key Insights
+                  </p>
+                </Link>
+                {transcriptions.map((transcription, id) => {
+                  if (transcription.endTime > episode.duration) {
+                    return "";
+                  }
+                  return (
+                    <Link
+                      style={{ cursor: "pointer" }}
+                      to={`section-${id}`}
+                      key={"" + id + Math.random() * 999}
+                      className="mt-2"
+                    >
+                      <p className="text">
+                        {transcription.headline
+                          .split(" ")
+                          .slice(0, 3)
+                          .join(" ")}
+                      </p>
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
 
-          <div>
-            {
-              summary && 
-              <div className="mt-5">
-                <h5 className="mb-2">Summary:</h5>
-                <p>{summary}</p>
-              </div>
-            }
-            {
-              keyInsights && 
+            <div className="rightSection">
               <div>
-                <h5 className="mt-4 mb-2">Key Insights:</h5>
-                {
-                  keyInsights.split("\n").map((ins, id)=>{
-                    return <p className="mb-1" key={ins+id}>{ins}</p>
-                  })
-                }
-              </div>
-            }
-          </div>
-          <div className="mt-5">
-            {
-              transcriptions.map((transcription, id)=>{
-                if(transcription.endTime >  episode.duration ){
-                  return ''
-                }
-                return(
-                  <Element name={`section-${id}`} key={id} className="mt-4">
-                    <h5  className="mb-2">{transcription.headline}</h5>
-                    <SummarizeModal text={transcription}  myclass='descrip' />
+                {summary && (
+                  <Element name="summarize" className="mt-5">
+                    <h5 className="mb-2">Summary:</h5>
+                    <p>{summary}</p>
                   </Element>
-                )
-              })
-            }
+                )}
+                {keyInsights && (
+                  <Element name="keyinsights">
+                    <h5 className="mt-4 mb-2">Key Insights:</h5>
+                    {keyInsights.split("\n").map((ins, id) => {
+                      return (
+                        <p className="mb-1" key={ins + id}>
+                          {ins}
+                        </p>
+                      );
+                    })}
+                  </Element>
+                )}
+              </div>
+              <div className="mt-5">
+                {transcriptions.map((transcription, id) => {
+                  if (transcription.endTime > episode.duration) {
+                    return "";
+                  }
+                  return (
+                    <Element name={`section-${id}`} key={id} className="mt-4">
+                      <h5 className="mb-2">{transcription.headline}</h5>
+                      <SummarizeModal text={transcription} myclass="descrip" />
+                    </Element>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         </div>
       )}

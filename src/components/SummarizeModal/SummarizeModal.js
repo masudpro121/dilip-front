@@ -43,7 +43,7 @@ export default function SummarizeModal({ text, myclass }) {
             </div>
 
             <div className="hov">
-              <div className="listen">
+              <div className="listen" onClick={handlePlay}>
                 <div>
                   <img src={ListenImg} style={{ width: "30px" }} />
                 </div>
