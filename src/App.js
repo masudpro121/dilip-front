@@ -9,6 +9,7 @@ import { getCookie } from './utils/cookie';
 import EpisodeDetails from './components/EpisodeDetails/EpisodeDetails';
 import PodcastDetails from './pages/PodcastDetails/PodcastDetails';
 import SpeakIt from './components/SpeakIt/SpeakIt';
+import AudioPlayer from './components/AudioPlayer/AudioPlayer';
 
 // Router 
 
@@ -29,6 +30,7 @@ function App() {
     { path: "/podcast/:id", element: <PodcastDetails/> },
     { path: "/signup", element: <Signup/> },
     { path: "/signin", element: <Signin/> },
+    // { path: "/", element: <AudioPlayer/>},
     { path: "/", element: <Home/>},
     // { path: "/", element: <SpeakIt/>},
   ]);

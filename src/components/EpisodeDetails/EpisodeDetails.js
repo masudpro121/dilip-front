@@ -33,7 +33,7 @@ function EpisodeDetails() {
   const [textLength, setTextLength] = useState(0);
   const [summary, setSummary] = useState("");
   const [keyInsights, setKeyInsights] = useState("");
-  const [showTable, setShowTable] = useState(false)
+  const [showTable, setShowTable] = useState(false);
   const formatDescription = (text) => {
     return text
       .replace(/(<p>Visit).*(<\/p>)/gi, "")
@@ -120,98 +120,115 @@ function EpisodeDetails() {
     <div className="episodeDetails">
       {episode.id && (
         <div>
-          <div className="mb-4">
-            <div className="person">
-              <div>
-                {episode.persons ? (
-                  <img src={episode.persons[0].img} alt="" />
-                ) : (
-                  <img src={PodcastImg} alt="" />
-                )}
+          <div className="header" style={{marginLeft:`${showTable?'230px':'100px'}`}}>
+            <div className="mb-4">
+              <div className="person">
+                <div>
+                  {episode.persons ? (
+                    <img src={episode.persons[0].img} alt="" />
+                  ) : (
+                    <img src={PodcastImg} alt="" />
+                  )}
+                </div>
+                <div>
+                  <p>{episode.podcast.title}</p>
+                  <p>
+                    {episode.persons ? episode.persons[0].name : "Artist Name"}
+                  </p>
+                </div>
               </div>
-              <div>
-                <p>{episode.podcast.title}</p>
-                <p>
-                  {episode.persons ? episode.persons[0].name : "Artist Name"}
-                </p>
+              <h2 className="title">{episode.title}</h2>
+              <div className="times">
+                <p>Released: {episode.datePublishedPretty}</p>
+                <p>Duration: {getPrettyTime(episode.duration)}</p>
               </div>
             </div>
-            <h2 className="title">{episode.title}</h2>
-            <div className="times">
-              <p>Released: {episode.datePublishedPretty}</p>
-              <p>Duration: {getPrettyTime(episode.duration)}</p>
-            </div>
-          </div>
 
-          <div className="listen-section">
-            {episode.enclosureType && (
-              <div style={{ display: "none" }}>
-                <AudioPlayer
-                  audioRef={audioRef}
-                  enclosureType={episode.enclosureType}
-                  enclosureUrl={episode.enclosureUrl}
-                />
-              </div>
-            )}
-            {textLength / 250 > 0 && (
-              <div className="reader">
-                <CgEreader style={{ fontSize: "25px" }} />
-                <p>{Math.floor(textLength / 250)} Minute Read</p>
-              </div>
-            )}
-            <img
-              src={ListenImg}
-              className="playerBtn"
-              onClick={() => {
-                isPlaying ? audioRef.current.pause() : audioRef.current.play();
-                setIsPlaying(!isPlaying);
-              }}
-            ></img>
+            <div className="listen-section">
+              {episode.enclosureType && (
+                <div style={{ display: "none" }}>
+                  <AudioPlayer
+                    audioRef={audioRef}
+                    enclosureType={episode.enclosureType}
+                    enclosureUrl={episode.enclosureUrl}
+                  />
+                </div>
+              )}
+              {textLength / 250 > 0 && (
+                <div className="reader">
+                  <CgEreader style={{ fontSize: "25px" }} />
+                  <p>{Math.floor(textLength / 250)} Minute Read</p>
+                </div>
+              )}
+              <img
+                src={ListenImg}
+                className="playerBtn"
+                onClick={() => {
+                  isPlaying
+                    ? audioRef.current.pause()
+                    : audioRef.current.play();
+                  setIsPlaying(!isPlaying);
+                }}
+              ></img>
+            </div>
           </div>
 
           <div className="original-episode">
-            
             {transcriptions.length > 0 && (
-              <div className="tableContent">
-                <div style={{cursor:'pointer'}} onClick={()=>setShowTable(!showTable)}>
-                  <img style={{width:'15px', marginRight:'10px'}} src={ContentImg} alt="" />
-                  <b>Contents</b>
+              <div
+                className={`tableContent ${
+                  showTable ? "showtable" : "hidetable"
+                }`}
+              >
+                <div
+                  className="toogler"
+                  onClick={() => setShowTable(!showTable)}
+                >
+                  <img
+                    style={{ width: "15px", marginRight: "10px" }}
+                    src={ContentImg}
+                    alt=""
+                  />
+                  {showTable && <b>Contents</b>}
                 </div>
-                {
-                  showTable && 
+                {showTable && (
                   <>
-                  <Link style={{ cursor: "pointer" }} to={`summarize`} className="mt-3">
-                  <p className="text">
-                    Summarize
-                  </p>
-                </Link>
-                <Link style={{ cursor: "pointer" }} to={`keyinsights`} className="mt-2" >
-                  <p className="text">
-                    Key Insights
-                  </p>
-                </Link>
-                {transcriptions.map((transcription, id) => {
-                  if (transcription.endTime > episode.duration) {
-                    return "";
-                  }
-                  return (
                     <Link
                       style={{ cursor: "pointer" }}
-                      to={`section-${id}`}
-                      key={"" + id + Math.random() * 999}
+                      to={`summarize`}
+                      className="mt-3"
+                    >
+                      <p className="text">Summarize</p>
+                    </Link>
+                    <Link
+                      style={{ cursor: "pointer" }}
+                      to={`keyinsights`}
                       className="mt-2"
                     >
-                      <p className="text">
-                        {transcription.headline
-                          .split(" ")
-                          .slice(0, 3)
-                          .join(" ")}
-                      </p>
+                      <p className="text">Key Insights</p>
                     </Link>
-                  );
-                })}
+                    {transcriptions.map((transcription, id) => {
+                      if (transcription.endTime > episode.duration) {
+                        return "";
+                      }
+                      return (
+                        <Link
+                          style={{ cursor: "pointer" }}
+                          to={`section-${id}`}
+                          key={"" + id + Math.random() * 999}
+                          className="mt-2"
+                        >
+                          <p className="text">
+                            {transcription.headline
+                              .split(" ")
+                              .slice(0, 3)
+                              .join(" ")}
+                          </p>
+                        </Link>
+                      );
+                    })}
                   </>
-                }
+                )}
               </div>
             )}
 
@@ -244,10 +261,11 @@ function EpisodeDetails() {
                   return (
                     <Element name={`section-${id}`} key={id} className="mt-4">
                       <h5 className="mb-2">{transcription.headline}</h5>
-                      <SummarizeModal text={transcription} myclass="descrip" />
+                      <SummarizeModal text={transcription} episode={{enclosureType:episode.enclosureType, enclosureUrl:episode.enclosureUrl}} myclass="descrip" />
                     </Element>
                   );
                 })}
+                {/* <div style={{height:'1000vh'}}></div> */}
               </div>
             </div>
           </div>

@@ -21,9 +21,7 @@ pre {
 }
 
 .episodeDetails .tableContent{
-  width: 200px;
   margin-top: 20px;
-  background-color: var(--bgColor2);
   padding: 20px 20px;
   display: flex;
   flex-direction: column;
@@ -33,7 +31,14 @@ pre {
   overflow: auto;
   border-radius: 10px;
 }
-
+.episodeDetails .tableContent .toogler{
+  cursor: pointer;
+}
+.episodeDetails .tableContent.showtable{
+  width: 200px;
+  background-color: var(--bgColor2);
+  
+}
 .episodeDetails .rightSection{
   width: 70%;
 }

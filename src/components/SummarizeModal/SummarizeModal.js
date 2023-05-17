@@ -9,10 +9,13 @@ import formatTime from "../../utils/formatTime";
 import ListenImg from "../../assets/img/listen2.png";
 import SummarizeImg from "../../assets/img/summarize.png";
 import ReadMoreImg from "../../assets/img/readmore.png";
-export default function SummarizeModal({ text, myclass }) {
+import AudioPlayer from "../AudioPlayer/AudioPlayer";
+import { useRef } from "react";
+export default function SummarizeModal({ text, myclass, episode }) {
   const [show, setShow] = useState(false);
   const [option, setOption] = useState("short");
   const [playing, setPlaying] = useState(false)
+  const audioRef = useRef(null)
   const handleClose = () => {
     setShow(false);
     cancelSpeak();
@@ -34,12 +37,18 @@ export default function SummarizeModal({ text, myclass }) {
     if(!playing){
       cancelSpeak()
       setPlaying(true)
-      speak(text[option]);
+      // speak(text[option]);
    }else{
     setPlaying(false)
     cancelSpeak()
    }
   };
+
+  const audioCallback = (st) => {
+    if(st=='paused'){
+      setPlaying(false)
+    }
+  }
   return (
     <div className="summarizeModal">
       <div className={myclass}>
@@ -50,7 +59,9 @@ export default function SummarizeModal({ text, myclass }) {
             </div>
 
             <div className="hov">
-              <div className="listen" onClick={handlePlay}>
+              {
+                !playing && 
+                <div className="listen" onClick={handlePlay}>
                 <div>
                   <img src={ListenImg} style={{ width: "25px" }} />
                 </div>
@@ -59,6 +70,13 @@ export default function SummarizeModal({ text, myclass }) {
                   <p>{formatTime(text.endTime)} </p>
                 </div>
               </div>
+              }
+              {
+                playing && 
+                <div className="listen" >
+                  <AudioPlayer fn={audioCallback} audioRef={audioRef} enclosureType={episode.enclosureType} enclosureUrl={episode.enclosureUrl} timeStamp={text.endTime} />
+                </div>
+              }
               <div>
                 <div className="btns">
                   <div className="summarizeBtn">
